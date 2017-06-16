@@ -1,19 +1,17 @@
 
-/*???????????????????????????????????????????????????????????
 #include "WetherToStartAgain.h"
-#include "SimpleAudioEngine.h"
-#include "GameMenu.h"
+
 USING_NS_CC;
 
 Scene* WetherToStartAgain::createScene()
 {
 	// 'scene' is an autorelease object
 
-	//ÉèÖÃÎïÀíÊÀ½ç
+	//è®¾ç½®ç‰©ç†ä¸–ç•Œ
 	auto scene = Scene::createWithPhysics();
 
 	PhysicsWorld *world = scene->getPhysicsWorld();
-	//½«ÖØÁ¦ÉèÎªÁã
+	//å°†é‡åŠ›è®¾ä¸ºé›¶
 	world->setGravity(Vec2::ZERO);
 
 	// 'layer' is an autorelease object
@@ -45,57 +43,32 @@ bool WetherToStartAgain::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	/////////////////////////////
-	// 2. add a menu item with "X" image, which is clicked to quit the program
-	//    you may modify it.
-
-	// add a "close" icon to exit the progress. it's an autorelease object
-
-
-
-
-
-	auto closeItem = MenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
-		CC_CALLBACK_1(WetherToStartAgain::menuCloseCallback, this));
-
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width / 1.5, visibleSize.height / 3 + origin.y));
-
 	auto continueItem = MenuItemImage::create(
-		"continue.jpg",
-		"continue.jpg",
+		"restart.png",
+		"restart_dark.png",
 		CC_CALLBACK_1(WetherToStartAgain::menuContinueCallback, this));
 
 	continueItem->setPosition(Vec2(origin.x + visibleSize.width / 1.8, visibleSize.height / 3 + origin.y));
-	// create menu, it's an autorelease object
-	auto menu1 = Menu::create(closeItem, NULL);
-	menu1->setPosition(Vec2::ZERO);
-	this->addChild(menu1, 1);
-
+	
 	auto menu2 = Menu::create(continueItem, NULL);
 	menu2->setPosition(Vec2::ZERO);
 	this->addChild(menu2, 1);
 
 	// add "WetherToStartAgain" splash screen"
-	auto sprite1 = Sprite::create("WetherToStartAgain.jpg");                                                  //¸ÄÎª×Ô¼ºµÄÍ¼Æ¬
+	auto sprite1 = Sprite::create("gameOver.png");                                                  //æ”¹ä¸ºè‡ªå·±çš„å›¾ç‰‡
 
 																								 // position the sprite on the center of the screen
 	sprite1->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 	Size mywinsize = Director::getInstance()->getWinSize();
-	float winw = mywinsize.width; //»ñÈ¡ÆÁÄ»¿í¶È
-	float winh = mywinsize.height;//»ñÈ¡ÆÁÄ»¸ß¶È
+	float winw = mywinsize.width; //èŽ·å–å±å¹•å®½åº¦
+	float winh = mywinsize.height;//èŽ·å–å±å¹•é«˜åº¦
 	float spx = sprite1->getTextureRect().getMaxX();
 	float spy = sprite1->getTextureRect().getMaxY();
-	sprite1->setScaleX(winw / spx); //ÉèÖÃ¾«Áé¿í¶ÈËõ·Å±ÈÀý
+	sprite1->setScaleX(winw / spx); //è®¾ç½®ç²¾çµå®½åº¦ç¼©æ”¾æ¯”ä¾‹
 	sprite1->setScaleY(winh / spy);
 
 	// add the sprite as a child to this layer
 	this->addChild(sprite1, 0);
-
-
-
-	//µ¹¼ÆÊ±×°ÖÃ60s
 
 
 	return true;
@@ -126,7 +99,4 @@ void WetherToStartAgain::menuCloseCallback(Ref* pSender)
 	//EventCustom customEndEvent("game_scene_close_event");
 	//_eventDispatcher->dispatchEvent(&customEndEvent);
 
-/*????????????????????????????????????????????
 }
-
-?????????????????????????????????????*/
