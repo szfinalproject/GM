@@ -1,59 +1,38 @@
-
-
 #include "GamePause.h"
-#include "SimpleAudioEngine.h"
-#include "SetObject.h"
-#include "ui/CocosGUI.h"
-using namespace cocos2d::ui;
-
-USING_NS_CC;
 
 Scene* GamePause::createScene()
 {
-	// 'scene' is an autorelease object
-
-	//ÉèÖÃÎïÀíÊÀ½ç
 	auto scene = Scene::create();
-// 'layer' is an autorelease object
 	auto layer = GamePause::create();
-// add layer as a child to scene
 	scene->addChild(layer);
-// return the scene
 	return scene;
 }
-
-// on "init" you need to initialize your instance
-
-
 bool GamePause::init()
 {
-//////////////////////////////
-// 1. super init first
-if (!LayerColor::initWithColor(Color4B(0,0,0,150)))
-{
-return false;
-}
+	if (!LayerColor::initWithColor(Color4B(0, 0, 0, 150)))
+	{
+		return false;
+	}
+    visibleSize = Director::getInstance()->getVisibleSize();
+	origin = Director::getInstance()->getVisibleOrigin();
 
-visibleSize = Director::getInstance()->getVisibleSize();
-origin = Director::getInstance()->getVisibleOrigin();
+	goOnButton = MenuItemImage::create(
+		"Pause_off.png",
+		"Pause_off.png",
+		CC_CALLBACK_1(GamePause::goOn, this));
 
-goOnButton = MenuItemImage::create(
-	"oppopause.jpg",
-	"oppopause.jpg",
-	CC_CALLBACK_1(GamePause::goOn, this));
-
-goOnButton->setPosition(Vec2(origin.x + visibleSize.width / 2, visibleSize.height / 2 + origin.y));
-menu = Menu::create(goOnButton, NULL);
-menu->setPosition(Vec2::ZERO);
-this->addChild(menu, 1);
-return true;
-
-
+	Size size2 = goOnButton->getContentSize();
+	float scaleX2 = (float)size2.width*0.5f / (float)size2.width;
+	float scaleY2 = (float)size2.height*0.5f / (float)size2.height;
+	goOnButton->setScale(scaleX2, scaleY2);
+	goOnButton->setPosition(Vec2(visibleSize.width*0.8, visibleSize.height*0.97));
+	menu = Menu::create(goOnButton, NULL);
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu, 10);
+	return true;
 }
 void GamePause::goOn(Ref*pSender)
 {
-		_eventDispatcher->dispatchCustomEvent("goOnGame");
-	
-	
+	_eventDispatcher->dispatchCustomEvent("goOnGame");
 }
 
