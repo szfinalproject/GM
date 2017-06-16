@@ -1,9 +1,10 @@
 #pragma once
-#pragma once
 #ifndef __WETHERTOSTARTAGAIN_SCENE_H__
 #define __WETHERTOSTARTAGAIN_SCENE_H__
 
 #include "cocos2d.h"
+#include "SimpleAudioEngine.h"
+#include "GameMenu.h"
 USING_NS_CC;
 
 class WetherToStartAgain : public cocos2d::Layer
