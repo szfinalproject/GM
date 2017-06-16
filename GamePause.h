@@ -1,13 +1,14 @@
-
 #pragma once
-//#ifndef __GAMEPAUSE_SCENE_H__
+#ifndef __GAMEPAUSE_SCENE_H__
 #define __GAMEPAUSE_SCENE_H__
 
 #include "Store.h"
 #include "WetherToStartAgain.h"
 #include "cocos2d.h"
+#include "SimpleAudioEngine.h"
 #include "ui/CocosGUI.h"
 using namespace cocos2d::ui;
+using namespace CocosDenshion;
 USING_NS_CC;
 
 class GamePause : public cocos2d::LayerColor
@@ -26,4 +27,6 @@ public:
 	// implement the "static create()" method manually
 	CREATE_FUNC(GamePause);
 };
+
+#endif
 
