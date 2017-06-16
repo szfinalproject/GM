@@ -1,6 +1,6 @@
 #pragma once
 
-#include "HelloWorldScene.h"
+#include "MainGame.h"
 #include "math.h"
 #include <vector>
 #include "cocos2d.h"
