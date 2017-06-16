@@ -1,10 +1,10 @@
 
-/*??????????????????????????????????????????????????
 #include "Store.h"
 #include "SimpleAudioEngine.h"
-#include "SetObject.h"
+#include "MainGame.h"
 #include "Score.h"
 #include <iostream>
+//#include "AndriodGame.h"
 USING_NS_CC;
 using namespace std;
 extern int crump_number;
@@ -15,7 +15,7 @@ Scene* Store::createScene()
 {
 // 'scene' is an autorelease object
 
-//ÉèÖÃÎïÀíÊÀ½ç
+//è®¾ç½®ç‰©ç†ä¸–ç•Œ
 auto scene = Scene::create();
 // 'layer' is an autorelease object
 auto layer = Store::create();
@@ -27,12 +27,8 @@ scene->addChild(layer);
 return scene;
 }
 
-// on "init" you need to initialize your instance
-
 bool Store::init()
 {
-//////////////////////////////
-// 1. super init first
 if (!Layer::init())
 {
 return false;
@@ -40,12 +36,6 @@ return false;
 
 auto visibleSize = Director::getInstance()->getVisibleSize();
 Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-/////////////////////////////
-// 2. add a menu item with "X" image, which is clicked to quit the program
-//    you may modify it.
-
-// add a "close" icon to exit the progress. it's an autorelease object
 
 auto closeItem = MenuItemImage::create(
 "CloseNormal.png",
@@ -56,18 +46,18 @@ closeItem->setPosition(Vec2(origin.x + visibleSize.width / 1.5, visibleSize.heig
 
 
 auto crump = MenuItemImage::create(
-	"crumplabel.jpg",
-	"crumplabel.jpg",
+	"crumplabel.png",
+	"crumplabel.png",
 	CC_CALLBACK_0(Store::addCrumpNumber, this));
 
-crump->setPosition(Vec2(origin.x + visibleSize.width / 1.8, visibleSize.height / 3 + origin.y));
+crump->setPosition(Vec2(origin.x + visibleSize.width / 3.2, visibleSize.height / 4.4 + origin.y));
 
 auto oncontinue = MenuItemImage::create(
-	"continue.jpg",
-	"continue.jpg",
+	"next.png",
+	"next_dark.png",
 	CC_CALLBACK_1(Store::menuContinueCallback, this));
 
-oncontinue->setPosition(Vec2(origin.x + visibleSize.width / 1.5, visibleSize.height / 2 + origin.y));
+oncontinue->setPosition(Vec2(origin.x + visibleSize.width / 5.1, visibleSize.height / 4 + origin.y));
 
 // create menu, it's an autorelease object
 auto menu1 = Menu::create(closeItem, NULL);
@@ -83,22 +73,22 @@ menu3->setPosition(Vec2::ZERO);
 this->addChild(menu3, 3);
 
 // add "Store" splash screen"
-auto sprite1 = Sprite::create("Store.jpg");                                                  //¸ÄÎª×Ô¼ºµÄÍ¼Æ¬
+auto sprite1 = Sprite::create("shop.png");                                                  //æ”¹ä¸ºè‡ªå·±çš„å›¾ç‰‡
 
 // position the sprite on the center of the screen
 sprite1->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 Size mywinsize = Director::getInstance()->getWinSize();
-float winw = mywinsize.width; //»ñÈ¡ÆÁÄ»¿í¶È
-float winh = mywinsize.height;//»ñÈ¡ÆÁÄ»¸ß¶È
+float winw = mywinsize.width; //èŽ·å–å±å¹•å®½åº¦
+float winh = mywinsize.height;//èŽ·å–å±å¹•é«˜åº¦
 float spx = sprite1->getTextureRect().getMaxX();
 float spy = sprite1->getTextureRect().getMaxY();
-sprite1->setScaleX(winw / spx); //ÉèÖÃ¾«Áé¿í¶ÈËõ·Å±ÈÀý
+sprite1->setScaleX(winw / spx); //è®¾ç½®ç²¾çµå®½åº¦ç¼©æ”¾æ¯”ä¾‹
 sprite1->setScaleY(winh / spy);
 
 // add the sprite as a child to this layer
 this->addChild(sprite1, 0);
 
-char* price = new char[50];
+char* price = new char[4];
 int prc = 0;
 	switch (level)
 	{
@@ -111,10 +101,16 @@ int prc = 0;
 	case 3:
 		prc = 280;
 		break;
+	case 4:
+		prc = 380;
+		break;
+	case 5:
+		prc = 450;
+		break;
 	}
 	sprintf(price, "%d", prc);
 	label = Label::createWithSystemFont(price, "Arial", 20);
-	label->setPosition(Vec2(origin.x + visibleSize.width / 1.8, visibleSize.height / 5.5 + origin.y));
+	label->setPosition(Vec2(origin.x + visibleSize.width / 3.2, visibleSize.height / 7.8 + origin.y));
 	label->setColor(Color3B::GREEN);
 	this->addChild(label);
 
@@ -134,6 +130,11 @@ void Store::addCrumpNumber()
 		case 3:
 			*(score.getScore()) -= 280;
 			break;
+		case 4:
+			*(score.getScore()) -= 380;
+			break;
+		case 5:
+			*(score.getScore()) -= 450;
 		}
 	menu3->removeFromParentAndCleanup(true);
 	label->removeFromParentAndCleanup(true);
@@ -142,7 +143,7 @@ void Store::addCrumpNumber()
 void Store::menuContinueCallback(Ref* pSender)
 {
 	auto director = Director::getInstance();
-	CCScene *scene = SetObject::createScene();
+	CCScene *scene = MainGame::createScene();
 	auto transition = TransitionCrossFade::create(0.5f, scene);
 	director->replaceScene(transition);
 }
@@ -152,17 +153,4 @@ void Store::menuCloseCallback(Ref* pSender)
 
 Director::getInstance()->end();
 
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-exit(0);
-#endif
-
-/*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() and exit(0) as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
-//EventCustom customEndEvent("game_scene_close_event");
-//_eventDispatcher->dispatchEvent(&customEndEvent);
-
-/*??????????????????????????????????????????????????????????
 }
-
-?????????????????????????????????????????????*/
